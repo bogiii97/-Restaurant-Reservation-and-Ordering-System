@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header"></div>
+        <div class="col-4 header" style="padding-top: 30px; padding-left: 75px;">
+            <span style="font-family: Pacifico; font-size: 37px; color: #e6e6f0; cursor: default; pointer-events: none;" >Kutak dobre hrane</span>
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left: 15px;">
+        </div>
+
+        <div class="col-4 header text-black" style="padding-right: 35px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <i><h1 class="text-center" style="color: #e6e6f0">Dobro došli!</h1></i>
+    <hr>
+    <br><br>
+    <div class="row">
+        <div class="col-md-4">
+            <h1 class="text-right adminFormName" style="font-size: 30px;"><b>Rad sa korisnicima</b></h1>
+            <div class="card p-5 adminFormBg">
+                <form class="adminForm">
+                    <div><a routerLink="guestOverview" class="adminFormLink"><span style="font-size: 25px;">Pregled korisnika</span></a></div>
+                    <div><a routerLink="registrationRequests" class="adminFormLink"><span style="font-size: 25px;">Pregled zahteva za registraciju</span></a></div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h1 class="text-right adminFormName" style="font-size: 30px;"><b>Rad sa restoranima</b></h1>
+            <div class="card p-5 adminFormBg" >
+                <form class="adminForm">
+                    <div><a routerLink="restaurantOverview" class="adminFormLink"><span style="font-size: 25px;">Pregled restorana</span></a></div>
+                    <div><a routerLink="createRestaurant" class="adminFormLink"><span style="font-size: 25px;">Dodavanje restorana</span></a></div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h1 class="text-right adminFormName" style="font-size: 30px;"><b>Rad sa konobarima</b></h1>
+            <div class="card p-5 adminFormBg">
+                <form class="adminForm">
+                    <div><a routerLink="waiterOverview" class="adminFormLink"><span style="font-size: 25px;">Pregled konobara</span></a></div>
+                    <div><a routerLink="createWaiter" class="adminFormLink"><span style="font-size: 25px;">Dodavanje konobara</span></a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

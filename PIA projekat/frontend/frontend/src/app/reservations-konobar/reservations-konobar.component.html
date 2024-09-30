@@ -1,0 +1,159 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header" style="padding-top: 35px; padding-left: 35px;">
+            <span style="font-family: Pacifico; font-size: 25px; color: #e6e6f0; cursor: default; pointer-events: none;">Kutak dobre hrane</span>
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left: 15px;">
+        </div>
+
+        <div class="col-6 header" style=" padding-top: 25px; padding-left: 90px;">
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/konobar/reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/konobar/foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/konobar/statistics"><img src="../assets/statistics.png" alt="Statistika" class="img-fluid"></a> 
+            </div>
+        </div>
+
+        <div class="col-2 header text-white text-center" style="padding-right: 50px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center">
+            <button class="btn  btn-outline-dark"  (click)="changeWindow(true)" [class.active]="flag">
+                Neobrađene rezervacije
+            </button> &nbsp; &nbsp; &nbsp; 
+            <button class="btn btn-outline-dark"  (click)="changeWindow(false)" [class.active]="!flag">
+                Aktuelne rezervacije
+            </button>    
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+    </div>
+
+    <div *ngIf="flag">
+        <br><br>
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+                <form>
+                     <canvas id="layoutCanvas" width="440" height="350"></canvas>
+                </form>
+            </div>
+            <div class="col-md-6" *ngIf="allPendingReservations.length>0">
+              <div class="user-card" style="background-color: #2d308c; padding: 20px;">
+                  <div class="row">
+                      <div class="col-sm-6">
+                        <br>
+                          <p style="font-size: 20px; color: white;">Ime i prezime: <i>{{currentReservation.firstname}} {{currentReservation.lastname}}</i></p>
+                          <p style="font-size: 20px; color: white;">Broj: {{currentReservation.phoneNumber}}</p>
+                          <p style="font-size: 20px; color: white;">Vreme: {{ currentReservation.date.getDate().toString().padStart(2, '0') }}.{{ (currentReservation.date.getMonth() + 1).toString().padStart(2, '0') }}.{{ currentReservation.date.getFullYear() }}.
+                            {{ currentReservation.date.getHours().toString().padStart(2, '0') }}:{{ currentReservation.date.getMinutes().toString().padStart(2, '0') }}h</p>
+                          <p style="font-size: 20px; color: white;">Broj ljudi: 
+                            <ng-container *ngFor="let seat of [].constructor(currentReservation.numberOfPeople)">
+                              <img src="../../assets/person1.png" alt="Person Icon" style="width: 30px; height: 30px; margin-right: -10px; ">
+                            </ng-container>
+                          </p> 
+                      </div>
+                      <div class="col-sm-6 text-center">
+                          <div class="form-group centered-form-group">
+                              <label for="tables"><span style="color: white;">*Sto</span></label>
+                              <select (change)="drawLayout(layout)" [(ngModel)]="selectedTable" class="form-control" id="tables" name="tables" style="border-color: #2d308c; margin-bottom: 10px;">
+                                  <option *ngFor="let table of freeTables" [value]="table">{{table}}</option>
+                              </select>
+                          </div>
+                          <span class="error">{{acceptMessage}}</span>
+                          <br *ngIf="acceptMessage!=''">
+                          <button class="btn btn-sm btn-outline-success" (click)="acceptReservation()" style="width: 100px; margin-bottom: 15px;">
+                              <span style="color: white">Odobri</span>
+                          </button>
+                          
+                          <div class="form-group centered-form-group" style="margin-top: 20px;">
+                              <label for="rejectReason"><span style="color: white;">*Razlog odbijanja</span></label>
+                              <input class="form-control" type="text" name="rejectReason" [(ngModel)]="rejectReason" id="rejectReason" style="border-color: #2d308c; margin-bottom: 10px;">
+                          </div>
+                          <span class="error">{{rejectMessage}}</span>
+                          <br *ngIf="rejectMessage!=''">
+                          <button class="btn btn-sm btn-outline-danger" (click)="declineReservation()" style="width: 100px; margin-bottom: 25px;">
+                              <span style="color: white">Odbij</span>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-center">
+                        <button class="btn btn-sm btn-outline-primary" (click)="previousReservation()" style="width: 100px; margin: 10px;">
+                            <span style="color: white">Prethodna</span>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary" (click)="nextReservation()" style="width: 100px; margin: 10px;">
+                            <span style="color: white">Sledeća</span>
+                        </button>
+                    </div>
+                </div>
+                  
+              </div>
+          </div>
+          <div class="col-md-6 text-center" *ngIf="allPendingReservations.length==0"  style="margin-top:130px">
+                <h3>Trenutno nema zahteva za rezervaciju</h3>
+          </div>
+          
+        </div>
+    </div>
+
+    <div *ngIf="!flag">
+      <br><br>
+      <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6" *ngIf="myConfirmedReservations.length>0">
+            <div *ngFor="let reservation of myConfirmedReservations" class="user-card" style="background-color: #2d308c; padding: 20px; margin-top: 25px;">
+                <div class="row">
+                  <div class="col-sm-1"></div>
+                    <div class="col-sm-6" style="margin-top: 20px;">
+                        <p style="font-size: 20px; color: white;">Ime i prezime: <i>{{reservation.firstname}} {{reservation.lastname}}</i></p>
+                        <p style="font-size: 20px; color: white;">Broj: {{reservation.phoneNumber}}</p>
+                        <p style="font-size: 20px; color: white;">Vreme: {{ reservation.date.getDate().toString().padStart(2, '0') }}.{{ (reservation.date.getMonth() + 1).toString().padStart(2, '0') }}.{{ reservation.date.getFullYear() }}.
+                          {{ reservation.date.getHours().toString().padStart(2, '0') }}:{{ reservation.date.getMinutes().toString().padStart(2, '0') }}h</p>
+                        <p style="font-size: 20px; color: white;">Broj ljudi: 
+                          <ng-container *ngFor="let seat of [].constructor(reservation.numberOfPeople)">
+                            <img src="../../assets/person1.png" alt="Person Icon" style="width: 30px; height: 30px; margin-right: -10px; ">
+                          </ng-container>
+                        </p> 
+                        <p style="font-size: 20px; color: white;">Sto: {{reservation.table}}</p>
+                    </div>
+                    <div *ngIf="isHalfHourPast(reservation.date) && reservation.arrived==''" class="col-sm-5 text-center">
+                      <br><br><br><br>
+                      <h6 style="color: white;">Dolazak gosta</h6>
+                      <button class="btn btn-sm btn-outline-primary" (click)="arrival(reservation, true)" style="width: 100px; margin: 10px;">
+                        <span style="color: white">Došao</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary" (click)="arrival(reservation, false)" style="width: 100px; margin: 10px;">
+                        <span style="color: white">Nije došao</span>
+                    </button>
+                  </div>
+                    <div *ngIf="reservation.arrived=='Da'" class="col-sm-5 text-center">
+                      <br><br><br><br>
+                        <h6 style="color: white;">Produži rezervaciju za 1h</h6>
+                        <button class="btn btn-sm btn-outline-primary" (click)="oneHour(reservation)" style="width: 100px;">
+                          <span style="color: white">Produži</span>
+                      </button>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-6 text-center" *ngIf="myConfirmedReservations.length==0"  style="margin-top:130px">
+              <h3>Trenutno nema aktuelnih rezervacija</h3>
+        </div>
+        <div class="col-md-3"></div>
+        
+      </div>
+    </div>
+    <br><br>
+</div>

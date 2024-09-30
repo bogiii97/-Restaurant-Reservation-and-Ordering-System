@@ -1,0 +1,36 @@
+.float-left {
+    float: left;
+    margin-left: 25px;
+}
+
+
+.float-right {
+    float: right;
+    margin-right: 20px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.prijava{
+    font-size: 20px;
+}
+
+.header{
+    background-color: #2d308c;
+}
+
+.active {
+    background-color: darkslategray;
+    color: #fff; 
+    border-color: #000; 
+  }
+
+  p{
+    color:white;
+}
+
+.error{
+    color: red;
+}

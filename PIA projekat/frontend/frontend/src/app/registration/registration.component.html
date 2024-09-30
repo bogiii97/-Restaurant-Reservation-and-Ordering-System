@@ -1,0 +1,125 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header"></div>
+        <div class="col-4 header" style="padding-top: 30px; padding-left: 75px;">
+            <a routerLink=""><span style="font-family: Pacifico; font-size: 37px; color: #e6e6f0;" >Kutak dobre hrane</span> &nbsp;
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px;"></a>
+        </div>
+        <div class="col-4 header text-black" style="padding-right: 35px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a routerLink="/login" class="prijava" style="color:#e6e6f0">Prijava</a> <span style="color:#e6e6f0"> | </span>
+                    <a routerLink="/registration" class="prijava" style="color:#e6e6f0">Registracija</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center" *ngIf="!flag">
+        <div class="col-md-6">
+            <br>
+            <h1 class="text-center">Registracija</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="firstName">*Ime</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="Petar" required style="border-color: #2d308c;"  name="firstName" [(ngModel)]="user.firstname">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lastName">*Prezime</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Perić" required style="border-color: #2d308c;"  name="lastName" [(ngModel)]="user.lastname">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px">
+                            <div class="form-group col-md-6">
+                                <label for="username">*Korisničko ime</label>
+                                <input type="text" class="form-control" id="username" placeholder="user123" required style="border-color: #2d308c;"  name="username" [(ngModel)]="user.username">
+                                <span class="error">{{usernameError}}</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="password">*Lozinka</label>
+                                <input type="password" class="form-control" id="password" placeholder="*******" required style="border-color: #2d308c;" name="password" [(ngModel)]="user.password">
+                                <span class="error">{{passwordError}}</span>
+                            </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px">
+                        <div class="form-group col-md-6">
+                            <label for="question">*Siguronosno pitanje</label>
+                            <input type="text" class="form-control" id="question" placeholder="Ime vašeg ljubimca" required style="border-color: #2d308c;"  name="question" [(ngModel)]="user.securityQuestion">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="answer">*Siguronosan odgovor</label>
+                            <input type="text" class="form-control" id="answer" placeholder="Beni" required style="border-color: #2d308c;"  name="answer" [(ngModel)]="user.securityAnswer">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px">
+                        <div class="form-group col-md-6">
+                            <label for="email">*Mejl</label>
+                            <input type="email" class="form-control" id="email" placeholder="example@gmail.com" required style="border-color: #2d308c;"  name="email" [(ngModel)]="user.email">
+                            <span class="error">{{emailError}}</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="creditCard">*Broj kreditne kartice</label>
+                            <input type="text" class="form-control" id="creditCard" placeholder="1111-2222-3333-4444" required style="border-color: #2d308c;"  name="creditCard" [(ngModel)]="user.creditCardNumber">
+                            <span class="error">{{creditCardError}}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px">
+                        <div class="form-group col-md-6">
+                            <label for="address">*Adresa</label>
+                            <input type="text" class="form-control" id="address" placeholder="Vojvode Stepe 35, Beograd" required style="border-color: #2d308c;"  name="address" [(ngModel)]="user.address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone">*Broj telefona</label>
+                            <input type="text" class="form-control" id="phone" placeholder="064123456" required style="border-color: #2d308c;"  name="phone" [(ngModel)]="user.phone">
+                            <span class="error">{{phoneNumberError}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 20px">
+                        <div class="form-group col-md-6">
+                            <label for="gender">*Pol</label>
+                            <select class="form-control" id="gender" [(ngModel)]="user.gender" name="gender" style="border-color: #2d308c;">
+                                <option value="muški" selected>Muški</option>
+                                <option value="ženski">Ženski</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="profile_picture">Profilna slika</label>             
+                            <input type="file" class="form-control" (change)="validateProfilePicture($event)">
+                            <span class="error">{{profilePictureError}}</span>
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 20px">
+                        <span class="error">{{fieldError}}</span>
+                        <br>
+                        <button class="btn" style="color: white; background-color: #f9ab00;" (click)="registration()">Registruj se</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="text-center mt-3">
+                Imaš profil? <a routerLink="/login" class="text-decoration-none belo"><u>Uloguj se!</u></a>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="row justify-content-center" *ngIf="flag">
+        <div class="col-md-4">
+            <br>
+            <h1 class="text-center">Zahtev je izvršen</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                <form>
+                    <div class="form-group">
+                        <label for="email"><i>Zahtev za registraciju je uspešno izvršen. Administratori će vam u najkraćem mogućem roku odobriti nalog.</i></label>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <a routerLink=""><button class="btn" style="color: black; background-color: #f9ab00;">Vratite se na početnu</button></a>     
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

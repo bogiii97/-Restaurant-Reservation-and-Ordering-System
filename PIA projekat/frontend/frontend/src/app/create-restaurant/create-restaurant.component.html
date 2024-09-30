@@ -1,0 +1,254 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header"></div>
+        <div class="col-4 header" style="padding-top: 30px; padding-left: 75px;">
+            <span style="font-family: Pacifico; font-size: 37px; color: #e6e6f0; cursor: default; pointer-events: none;" >Kutak dobre hrane</span>
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left: 15px;">
+        </div>
+
+        <div class="col-4 header text-black" style="padding-right: 35px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!completed">
+        <a routerLink="/admin"><img src="../../assets/backwardBlack.png" alt="" style="width: 40px; height: 40px; margin-top: 10px; margin-left: 10px;"></a>
+    </div>
+
+    <div class="row justify-content-center" *ngIf="info">
+        <div class="col-md-6">
+            <br>
+            <h1 class="text-center belo">Osnovne informacije</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name">*Ime</label>
+                            <input type="text" class="form-control" id="name" placeholder="Kod kuma" required style="border-color: #2d308c;"  name="name" [(ngModel)]="restaurant.name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="type">*Tip</label>
+                            <select class="form-control" id="type" [(ngModel)]="restaurant.type" name="type" style="border-color: #2d308c;">
+                                <option value="domaćaKuhinja">Domaća kuhinja</option>
+                                <option value="kineski">Kineski</option>
+                                <option value="tajlandski">Tajlandski</option>
+                            </select>   
+                        </div>
+
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="address">*Adresa</label>
+                            <input type="text" class="form-control" id="address" placeholder="Jurija Gagarina 13, Beograd" required style="border-color: #2d308c;"  name="address" [(ngModel)]="restaurant.address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="contactPerson">*Kontakt osoba</label>
+                            <input type="text" class="form-control" id="contactPerson" placeholder="Petar Jović: 0655553012" required style="border-color: #2d308c;"  name="contactPerson" [(ngModel)]="restaurant.contactPerson">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-3">                        
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>*Slika restorana</label>             
+                            <input type="file" class="form-control" (change)="validateRestaurantPicture($event)">
+                            <span class="error">{{restaurantPictureError}}</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-3">                        
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="description">*Opis</label>
+                            <textarea name="description" id="description" class="form-control" rows="4" placeholder="Opis restorana" required style="border-color: #2d308c;" [(ngModel)]="restaurant.description"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                        </div>
+                    </div>
+
+                    <div class="text-center" style="margin-top: 20px">
+                        <span class="error">{{infoMessage}}</span>
+                        <br>
+                        <button class="btn btn-primary" style="color: white;" (click)="next()">Dalje</button>
+                    </div>          
+                </form>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <div class="row justify-content-center" *ngIf="hours">
+        <div class="col-md-6">
+            <br>
+            <h1 class="text-center belo">Radno vreme</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="day">Dan</label>
+                            <select class="form-control" id="day" [(ngModel)]="day" name="day" style="border-color: #2d308c;">
+                                <option value="Ponedeljak" selected>Ponedeljak</option>
+                                <option value="Utorak">Utorak</option>
+                                <option value="Sreda">Sreda</option>
+                                <option value="Četvrtak">Četvrtak</option>
+                                <option value="Petak">Petak</option>
+                                <option value="Subota">Subota</option>
+                                <option value="Nedelja">Nedelja</option>
+                            </select>   
+                        </div>
+                        <div class="form-group col-md-5" style="margin-top: 28px;">
+                            Od: <input type="number" name="from" id="from" [(ngModel)]="from" style="width: 100px;">
+                            Do: <input type="number" name="to" id="to" [(ngModel)]="to" style="width: 100px;">
+                        </div>
+                        <div class="form-group col-md-3" style="margin-top: 25px;">
+                            <button class="btn btn-primary btn-sm" style="color: white; margin-left: 30px;" (click)="addWorkingHour()">Dodaj</button>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <h4 *ngIf="restaurant.workingHours.length == 0" class="text-center"><i>Trenutno nema definisano radno vreme</i></h4>
+                    <div class="row" *ngFor="let hour of restaurant.workingHours">
+                        <div *ngIf="hour.openingTime<10 && hour.closingTime>=10" class="col-sm-4" style="margin-top: 10px;"><i style="font-size: 20px;">{{hour.day}} 0{{hour.openingTime}}h-{{hour.closingTime}}h</i></div>
+                        <div *ngIf="hour.openingTime<10 && hour.closingTime<10" class="col-sm-4" style="margin-top: 10px;"><i style="font-size: 20px;">{{hour.day}} 0{{hour.openingTime}}h-0{{hour.closingTime}}h</i></div>
+                        <div *ngIf="hour.openingTime>=10 && hour.closingTime>=10" class="col-sm-4" style="margin-top: 10px;"><i style="font-size: 20px;">{{hour.day}} {{hour.openingTime}}h-{{hour.closingTime}}h</i></div>
+                        <div class="col-sm-3" style="margin-top: 10px;">
+                            <a (click)="deleteWorkingHour(hour.day, hour.openingTime, hour.closingTime)" style="margin-left: 20px; color: white;"><img src="../../assets/declineSign1.png" alt="Odbij" style="width: 30px; height: 30px;"></a>  
+                         </div>
+                       <div class="col-sm-5"></div>  
+                    </div>
+                    <hr>
+                    <div class="text-center" style="margin-top: 20px">
+                        <span class="error">{{hoursMessage}}</span>
+                        <br>
+                        <button class="btn btn-primary" style="color: white;" (click)="prev1()">Nazad</button> &nbsp;&nbsp;
+                        <button class="btn btn-primary" style="color: white;" (click)="next1()">Dalje</button>
+                    </div>          
+                </form>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <div class="row justify-content-center" *ngIf="tables">
+        <div class="col-md-4">
+          <br/>
+          <h1 class="text-center belo">Biranje rasporeda</h1>
+          <div class="card p-4" style="border-color: #2d308c; background-color: #9195ff">
+            <form>
+                <label for="chossenSchedule">Izaberite raspored</label>
+                <select (change)="loadTables()" class="form-control" id="chossenSchedule" [(ngModel)]="chossenSchedule" name="chossenSchedule" style="border-color: #2d308c;">
+                    <option value="Raspored1" selected>Raspored 1</option>
+                    <option value="Raspored2">Raspored 2</option>
+                    <option value="Raspored3">Raspored 3</option>
+                </select>  
+              <br>
+              <canvas id="layoutCanvas" width="440" height="350"></canvas>
+              <div class="text-center" style="margin-top: 20px">
+                <span class="error">{{tablesMessage}}</span>
+                <br>
+                <button class="btn btn-primary" style="color: white;" (click)="prev2()">Nazad</button>
+                &nbsp;&nbsp;
+                <button class="btn btn-primary" style="color: white;" (click)="next2()">Dalje</button>
+              </div>
+            </form>
+          </div>
+          <br/>
+        </div>
+      </div>
+      
+
+
+    <div class="row justify-content-center" *ngIf="menu">
+        <div class="col-md-6">
+            <br>
+            <h1 class="text-center belo">Pravljenje jelovnika</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name">*Naziv jela</label>
+                            <input type="text" class="form-control" id="name" placeholder="Burger" required style="border-color: #2d308c;"  name="name" [(ngModel)]="dishName">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ingredients">*Sastojci</label>
+                            <input type="text" class="form-control" id="ingredients" placeholder="Juneće meso, zenička, kačkavalj" required style="border-color: #2d308c;"  name="ingredients" [(ngModel)]="dishIngredients">
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="form-group col-md-6">
+                            <label for="price">*Cena</label>
+                            <input type="number" class="form-control" id="price" placeholder="1200" required style="border-color: #2d308c;"  name="price" [(ngModel)]="dishPrice">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="profile_picture">*Slika jela</label>             
+                            <input type="file" class="form-control" (change)="validateDishPicture($event)">
+                            <span class="error">{{pictureError}}</span>
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 20px">
+                        <button class="btn btn-primary btn-sm" style="color: white;" (click)="addDish()">Dodaj jelo</button>
+                    </div> 
+                    <hr>
+                    <h5 *ngIf="restaurant.menu.length==0" class="text-center"><i>Trenutno nema jela u jelovniku</i></h5>
+                    
+                    <div class="row" *ngFor="let dish of restaurant.menu" style="display: flex; align-items: center;">
+                        <div class="col-sm-3" style="margin-top: 10px;"><img src="{{dish.image}}" alt="Picture" class="img-fluid"></div>
+                        <div class="col-sm-6" style="margin-top:10px;">
+                         <i>Ime: {{dish.dishName}} <br>
+                            Cena: {{dish.price}} dinara <br>
+                            Sastojci: {{dish.ingredients}} <br>
+                        </i>
+                        </div>                          
+                        <div class="col-sm-3" style="margin-top: 10px;">
+                            <a (click)="deleteDish(dish.dishName, dish.price, dish.ingredients)" style="color: white;"><img src="../../assets/declineSign1.png" alt="Odbij" style="width: 40px; height: 40px;"></a>  
+                         </div>        
+                    </div>
+
+                    <hr>
+
+                    <div class="text-center">
+                        <span class="error">{{dishesMessage}}</span>
+                        <br>
+                        <button class="btn btn-primary" style="color: white;" (click)="prev3()">Nazad</button> &nbsp;&nbsp;
+                        <button class="btn btn-primary" style="color: white;" (click)="createRestaurant()">Kraj</button>
+                    </div>  
+                </form>
+            </div>
+            <br>
+        </div>
+    </div>
+
+
+
+
+    <div class="row justify-content-center" *ngIf="completed">
+        <div class="col-md-4">
+            <br>
+            <h1 class="text-center">Akcija je izvršena</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                <form>
+                    <div class="form-group">
+                        <label><i>Restoran je uspešno kreiran i unet u sistem.</i></label>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <a routerLink="/admin"><button class="btn" style="color: black; background-color: #f9ab00;">Vratite se na početnu</button></a>     
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

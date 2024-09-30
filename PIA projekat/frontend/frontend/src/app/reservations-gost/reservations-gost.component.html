@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header" style="padding-top: 35px; padding-left: 35px;">
+            <span style="font-family: Pacifico; font-size: 25px; color: #e6e6f0;cursor: default; pointer-events: none;" >Kutak dobre hrane</span> 
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left:15px">
+        </div>
+
+        <div class="col-6 header" style=" padding-top: 25px; padding-left: 90px;" >
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/restaurants"><img src="../assets/restaurant.png" alt="Restorani" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> 
+            </div>
+        </div>
+        <div class="col-2 header text-white text-center" style="padding-right: 50px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="text-center" style="margin-top: 30px;"><h1>Rezervacije</h1></div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">    
+            <label for="reservationType">Status rezervacije:</label>
+            <select (change)="typeChange()" class="form-control" id="reservationType" [(ngModel)]="reservationType" name="reservationType" style="border-color: #2d308c;">
+                <option value="pending">Na čekanju</option>
+                <option value="confirmed" selected>Aktuelne</option>
+                <option value="archived">Arhivirane</option>
+                <option value="rejected">Odbijene</option>
+            </select>        
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+    <div class="row" *ngFor="let reservation of reservationsToShow" style="margin-top: 40px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 user-card" style="background-color: #2d308c;"> 
+            <div class="row align-items-center" style="margin-top: 10px;">
+                <div class="col text-center">
+                    <div *ngIf="reservation.canDrop" class="text-center" style="color: white; font-size: 27px; margin-left: 100px;">Opšte informacije</div>
+                    <div *ngIf="!reservation.canDrop" class="text-center" style="color: white; font-size: 27px;">Opšte informacije</div>
+                </div>
+                <div *ngIf="reservation.canDrop" class="col-auto">
+                    <button class="btn btn-sm btn-outline-danger" (click)="dropReservation(reservation._id)" >
+                        <span style="color: white">Otkaži</span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6" >
+                    <div style="margin-left: 10px;"><p style="font-size: 16px; margin-top: 30px;">Ime restorana: <i>{{reservation.restaurant}}</i></p></div>
+                    <div style="margin-left: 10px;"><p style="font-size: 16px; margin-top: 20px;">Adresa restorana: <i>{{reservation.restaurantAddress}}</i></p></div>
+                    <div *ngIf="reservation.arrived!=''" style="margin-left: 10px;"><p style="font-size: 16px; margin-top: 20px;">Došao: <b><i>{{reservation.arrived}}</i></b></p></div>
+                </div>
+                <div class="col-sm-6">
+                    <div ><p style="font-size: 16px; margin-top: 30px;">Vreme rezervacije: <i>
+                        {{ reservation.date.getDate().toString().padStart(2, '0') }}.{{ (reservation.date.getMonth() + 1).toString().padStart(2, '0') }}.{{ reservation.date.getFullYear() }}.
+                        {{ reservation.date.getHours().toString().padStart(2, '0') }}:{{ reservation.date.getMinutes().toString().padStart(2, '0') }}h
+                    </i></p></div>
+                    <div><p style="font-size: 16px; margin-top: 20px;">Broj ljudi: <i>
+                        <ng-container *ngFor="let seat of [].constructor(reservation.numberOfPeople)">
+                            <img src="../../assets/person1.png" alt="Person Icon" style="width: 30px; height: 30px; margin-right: -10px; ">
+                        </ng-container>
+                    </i></p></div>  
+                </div>
+            </div>
+            <hr style="background-color: #f8f8f8;">
+            <div *ngIf="reservation.status=='rejected'" style="margin-left: 15px; margin-bottom: 15px;"><p>Razlog odbijanja: <b><i>{{reservation.rejectReason}}</i></b></p></div>     
+        </div>
+        <div class="col-sm-3"></div>
+        <br>
+    </div>
+    
+
+    <br><br>
+    <h2 *ngIf="reservationsToShow.length==0" class="text-center"><i>Nema rezervacija u ovoj grupi</i></h2>
+</div>

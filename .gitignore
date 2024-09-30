@@ -1,0 +1,4 @@
+#ignore node_modules -> download by "npm install"
+PIA projekat/frontend/frontend/node_modules
+PIA projekat/frontend/frontend/.cache
+PIA projekat/backend_Node/node_modules

@@ -1,0 +1,38 @@
+{
+    "kitchen": {
+      "x": 220,
+      "y": 50,
+      "width": 100,
+      "height": 80
+    },
+    "toilet": {
+      "x": 220,
+      "y": 150,
+      "width": 80,
+      "height": 80
+    },
+    "tables": [
+      {
+        "tableName": "Sto1",
+        "maxSeats": 4,
+        "x": 50,
+        "y": 50,
+        "radius": 30
+      },
+      {
+        "tableName": "Sto2",
+        "maxSeats": 4,
+        "x": 50,
+        "y": 150,
+        "radius": 30
+      },
+      {
+        "tableName": "Sto3",
+        "maxSeats": 4,
+        "x": 50,
+        "y": 250,
+        "radius": 30
+      }
+    ]
+  }
+  

@@ -1,0 +1,24 @@
+.error {
+    color: red;
+}
+
+.header{
+    background-color: #2d308c;
+}
+
+a{
+    text-decoration: none;
+}
+
+.belo{
+    color: white;
+}
+
+.float-right {
+    float: right;
+    margin-right: 20px;
+}
+
+.prijava{
+    font-size: 20px;
+}

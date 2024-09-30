@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header"></div>
+        <div class="col-4 header" style="padding-top: 30px; padding-left: 75px;">
+            <span style="font-family: Pacifico; font-size: 37px; color: #e6e6f0; cursor: default; pointer-events: none;" >Kutak dobre hrane</span>
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left: 15px;">
+        </div>
+
+        <div class="col-4 header text-black" style="padding-right: 35px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a routerLink="/admin"><img src="../../assets/backwardBlack.png" alt="" style="width: 40px; height: 40px; margin-top: 10px; margin-left: 10px;"></a>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+            <br>
+            <label for="search">Pretraga:</label>
+            <input (input)="search()" type="text" class="form-control" id="search" placeholder="Pretraži..." required style="border-color: #2d308c;" [(ngModel)]="searchText" name="search">
+        </div>
+        <div class="col-sm-3">
+            <br>
+            <label for="usertype">Tip korisnika:</label>
+            <select (change)="typeChange()" class="form-control" id="usertype" [(ngModel)]="usertype" name="usertype" style="border-color: #2d308c;">
+                <option value="active" selected>Aktivni</option>
+                <option value="deactive">Deaktivirani</option>
+            </select>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+    </div>
+    
+    <br><br>
+    <div class="row" *ngFor="let user of usersToShow" style="margin-top: 40px;">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 user-card" style="background-color: #2d308c;"> 
+            
+            <div class="row align-items-center">
+                <div class="col-sm-3 p-3">
+                    <img src="{{user.profilePicture}}" alt="Picture" class="img-fluid">
+                </div>
+                <div class="col-sm-3">
+                    <p>Ime: {{user.firstname}}</p>
+                    <p>Prezime: {{user.lastname}}</p>
+                    <p>Korisničko ime: {{user.username}}</p>
+                    <p>Imejl: {{user.email}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Telefon: {{user.phone}}</p>
+                    <p>Adresa: {{user.address}}</p>
+                    <p>Pol: {{user.gender}}</p>
+                    <p>Restoran: {{user.restaurant}}</p>
+                </div>
+                <div class="col-sm-2" *ngIf="user.status=='active'">
+                    <button class="btn btn-primary" style="margin-top: 85px;" (click)="setUserStatus(user,'deactive')">Deaktiviraj</button>
+                </div>
+                <div class="col-sm-2" *ngIf="user.status=='deactive'">
+                    <button class="btn btn-primary" style="margin-top: 85px;" (click)="setUserStatus(user,'active')">Aktiviraj</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+        <br>
+    </div>
+    <br><br>
+    <h2 *ngIf="usersToShow.length==0" class="text-center"><i>Trenutno nema korisnika</i></h2>
+
+</div>

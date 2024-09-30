@@ -1,0 +1,171 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header" style="padding-top: 35px; padding-left: 35px;">
+            
+            <span *ngIf="user.type=='gost'" style="font-family: Pacifico; font-size: 25px; color: #e6e6f0; cursor: default; pointer-events: none;" >Kutak dobre hrane</span>
+                <img *ngIf="user.type=='gost'" src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px;margin-left: 15px;">
+          <span *ngIf="user.type=='konobar'" style="font-family: Pacifico; font-size: 25px; color: #e6e6f0; cursor: default; pointer-events: none;" >Kutak dobre hrane</span>
+                <img *ngIf="user.type=='konobar'" src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left: 15px;">
+                    
+        </div>
+
+        <div *ngIf="user.type=='gost'" class="col-6 header" style=" padding-top: 25px; padding-left: 90px;" >
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/restaurants"><img src="../assets/restaurant.png" alt="Restorani" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> 
+            </div>
+        </div>
+
+        <div *ngIf="user.type=='konobar'" class="col-6 header" style=" padding-top: 25px; padding-left: 90px;">
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/konobar/reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/konobar/foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/konobar/statistics"><img src="../assets/statistics.png" alt="Statistika" class="img-fluid"></a> 
+            </div>
+        </div>
+
+
+
+    <div class="col-2 header text-white text-center" style="padding-right: 50px; padding-top: 45px;">
+        <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5" *ngIf="!flag">
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-9">
+                <div class="card" style="background-color:#777ad0">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">Informacije o korisniku</h3>
+                        <a (click)="changeFlag()"><img src="../../assets/icon.png" alt="Podešavanja" class="img-fluid" style="max-height: 40px;"></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-5">      
+                                <p><strong>Ime:</strong> {{user.firstname}}</p>
+                                <p><strong>Prezime:</strong> {{user.lastname}}</p>
+                                <p><strong>Korisničko ime:</strong> {{user.username}}</p>
+                                <p><strong>Adresa:</strong> {{user.address}}</p>
+                                <p><strong>Pol:</strong> {{user.gender}}</p>
+                                <p><strong>Broj telefona:</strong> {{user.phone}}</p>
+                                <p><strong>Imejl:</strong> {{user.email}}</p>
+                                <p *ngIf="user.type=='gost'"><strong>Broj kreditne kartice:</strong> {{creditCardHidden}}</p>
+                                <p *ngIf="user.type=='konobar'"><strong>Restoran: </strong>{{user.restaurant}}</p>
+                            </div>
+                            <div class="col-md-7" style="margin-top: 30px;">
+                                <div class="text-center"><img [src]="user.profilePicture" alt="Profile Picture" class="img-fluid"></div> 
+                                <div class="text-center">
+                                    <br>  
+                                    <button class="btn btn-sm btn-outline-dark"  (click)="triggerFileInput()">
+                                        Promeni sliku
+                                    </button>
+                                    <input type="file" id="fileInput" style="display: none;" (change)="validateProfilePicture($event)">
+                                </div>
+                                  <span class="error">{{profilePictureError}}</span>
+                            </div>                
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5" *ngIf="flag">
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <a (click)="changeFlag()"><img src="../../assets/backward.png" alt="Podešavanja" class="img-fluid" style="max-height: 40px;"></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" style="justify-content: center;">
+                            <div class="form-group col-md-6">
+                                <label for="choice">Izaberi polje za izmenu</label>
+                                <select class="form-control" id="choice" [(ngModel)]="choice" name="choice" style="border-color: #2d308c;">
+                                    <option value="password" selected>Lozinka</option>
+                                    <option value="securityQuestion">Siguronosno pitanje</option>
+                                    <option value="address">Adresa</option>
+                                    <option value="phone">Broj telefona</option>
+                                    <option *ngIf="user.type=='gost'" value="creditCardNumber">Kreditna kartica</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='password'">
+                            <div class="form-group col-md-7">
+                                <label for="password">Lozinka</label>
+                                <input type="password" class="form-control" id="password" placeholder="*******" required style="border-color: #2d308c;" name="password" [(ngModel)]="password">
+                            </div>
+                        </div>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='password'">
+                            <div class="form-group col-md-7">
+                                <label for="passwordA">Lozinka ponovo</label>
+                                <input type="password" class="form-control" id="passwordA" placeholder="*******" required style="border-color: #2d308c;" name="passwordA" [(ngModel)]="passwordAgain">
+                                <span class="error">{{passwordError}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='securityQuestion'">
+                            <div class="form-group col-md-7">
+                            <label for="question">Siguronosno pitanje</label>
+                            <input type="text" class="form-control" id="question" placeholder="Ime vašeg ljubimca" required style="border-color: #2d308c;"  name="question" [(ngModel)]="securityQuestion">
+                            </div>
+                        </div>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='securityQuestion'">
+                            <div class="form-group col-md-7">
+                            <label for="answer" >Siguronosan odgovor</label>
+                            <input type="text" class="form-control" id="answer" placeholder="Beni" required style="border-color: #2d308c;"  name="answer" [(ngModel)]="securityAnswer">
+                            <span class="error">{{questionError}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='address'">
+                            <div class="form-group col-md-7">
+                                <label for="address">Adresa</label>
+                                <input type="text" class="form-control" id="address" placeholder="Vojvode Stepe 35, Beograd" required style="border-color: #2d308c;"  name="address" [(ngModel)]="address">
+                                <span class="error">{{addressError}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='phone'">
+                            <div class="form-group col-md-7">
+                                <label for="phone">Broj telefona</label>
+                                <input type="text" class="form-control" id="phone" placeholder="064123456" required style="border-color: #2d308c;"  name="phone" [(ngModel)]="phone">
+                                <span class="error">{{phoneNumberError}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="justify-content: center;" *ngIf="choice=='creditCardNumber'">
+                            <div class="form-group col-md-7">
+                                <label for="creditCard">Broj kreditne kartice</label>
+                                <input type="text" class="form-control" id="creditCard" placeholder="1111-2222-3333-4444" required style="border-color: #2d308c;"  name="creditCard" [(ngModel)]="creditCardNumber">
+                                <span class="error">{{creditCardError}}</span>
+                            </div>
+                        </div>
+                        <span style="color: green">{{message}}</span>
+                        <br><br>
+                        <div class="row" style="justify-content: center;">
+                            <div class="col-md-5">
+                                <button class="btn btn-sm btn-outline-secondary" style="margin-left: 10px;"  (click)="change()">
+                                    Sačuvaj izmenu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

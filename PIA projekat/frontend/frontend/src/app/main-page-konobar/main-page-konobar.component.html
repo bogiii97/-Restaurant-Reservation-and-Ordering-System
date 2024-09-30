@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header" style="padding-top: 35px; padding-left: 35px;">
+            <a routerLink="/konobar"><span style="font-family: Pacifico; font-size: 25px; color: #e6e6f0;" >Kutak dobre hrane</span> &nbsp;
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px;"></a>
+        </div>
+
+        <div class="col-6 header" style=" padding-top: 25px; padding-left: 90px;">
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="statistics"><img src="../assets/statistics.png" alt="Statistika" class="img-fluid"></a> 
+            </div>
+        </div>
+
+        <div class="col-2 header text-white text-center" style="padding-right: 50px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

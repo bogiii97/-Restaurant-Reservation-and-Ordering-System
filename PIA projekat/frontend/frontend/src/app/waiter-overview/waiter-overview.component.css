@@ -1,0 +1,45 @@
+.float-left {
+    float: left;
+    margin-left: 25px;
+}
+
+
+.float-right {
+    float: right;
+    margin-right: 20px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.header{
+    background-color: #2d308c;
+}
+
+.prijava{
+    font-size: 20px;
+}
+
+.adminForm{
+    color: white;
+}
+
+.adminFormBg{
+    background-color: #2d308c;
+}
+
+.adminFormName{
+    color: #e6e6f0; 
+    font-size: 30px;
+}
+
+.adminFormLink{
+    color: #e6e6f0;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+p{
+    color:  white;
+}

@@ -1,0 +1,117 @@
+.float-left {
+    float: left;
+    margin-left: 25px;
+}
+
+
+.float-right {
+    float: right;
+    margin-right: 20px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.prijava{
+    font-size: 20px;
+}
+
+.header{
+    background-color: #2d308c;
+}
+
+.white{
+    color: white;
+}
+
+p{
+    color: white;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.card-container {
+    position: relative;
+}
+
+.waiters-link {
+    position: absolute;
+    bottom: 15px;
+    right: 0px;
+    width: 100%;
+    text-align: center;
+}
+
+
+.restaurant-link {
+    text-decoration: none; 
+    color: inherit; 
+}
+  
+.restaurant-link:hover p {
+    text-decoration: underline;
+  }
+
+  .vertical-line {
+    margin-top: 10px;
+    border-left: 1px solid black; 
+    height: 95%; 
+    margin-left: 55px;
+    margin-right: auto;
+}
+
+
+.error{
+    color: red;
+}
+
+.green{
+    color: green;
+}
+
+
+.dish-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.dish-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px; 
+}
+
+.dish-details i {
+    margin-bottom: 5px;
+}
+
+.dish-actions {
+    position: absolute;
+    right: 80px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+
+.centered-form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.centered-form-group label,
+.centered-form-group input {
+    width: auto; 
+}

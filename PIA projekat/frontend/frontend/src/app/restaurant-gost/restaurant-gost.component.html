@@ -1,0 +1,181 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header" style="padding-top: 35px; padding-left: 35px;">
+            <span style="font-family: Pacifico; font-size: 25px; color: #e6e6f0;cursor: default; pointer-events: none;" >Kutak dobre hrane</span> 
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left:15px">
+        </div>
+
+        <div class="col-6 header" style=" padding-top: 25px; padding-left: 90px;" >
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/restaurants"><img src="../assets/restaurant.png" alt="Restorani" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> 
+            </div>
+        </div>
+        <div class="col-2 header text-white text-center" style="padding-right: 50px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <p style="padding-top: 10px;font-size: 55px;" >{{restaurant.name}}</p><br>
+        <p>
+            <span><i>{{restaurant.address}}</i></span> | <span><i>{{restaurant.contactPerson}}</i></span>
+        </p>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            <h4 style="margin-top: 23px; margin-left:60px;">Radno vreme</h4>
+            <div *ngFor="let workingHour of restaurant.workingHours" style="font-size: 16px; margin-top: 5px;margin-left:60px;  ">
+                <p>{{workingHour.day}} {{workingHour.openingTime}}h-{{workingHour.closingTime}}h</p>
+            </div>
+            <br>
+            <h4 style="margin-top: 15px; margin-left: 50px;">Konobari</h4>
+            <div *ngFor="let waiter of waiterNames" style="font-size: 16px; margin-top: 5px; margin-left: 50px;">
+                <p>{{waiter.firstname}} {{waiter.lastname}}</p>
+            </div>
+        </div>
+
+        <div class="col-sm-1 d-flex justify-content-center">
+            <div class="vertical-line"></div>
+        </div>
+        <div class="col-sm-5 text-center card-container" style="position: relative;">
+            <p style="font-size:20px"><br><i>{{restaurant.description}}</i></p>
+            <img src="{{restaurant.picture}}" alt="Picture" class="img-fluid" style="margin-top:30px; width: 500px; height: 300px;">   
+        </div>
+        <div class="col-sm-1 d-flex justify-content-center">
+            <div class="vertical-line"></div>
+        </div>
+        <div class="col-sm-3 text-center">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <br>
+                    <div class="card p-4" style="border-color: #2d308c; background-color:#9195ff">
+                        <form>
+                            <h3 class="text-center belo">Rezervišite sto</h3>
+                            <div class="row" style="margin-top: 35px;">
+                                <div class="col-md-1"></div>
+                                <div class="form-group col-md-10" style="margin-left: 30px;">
+                                    <label for="numOfPeople" style="font-size: 20px;">*Broj ljudi za stolom: &nbsp;</label>
+                                    <input type="number" name="numOfPeople" id="numOfPeople" [(ngModel)]="numOfPeople">
+                                </div>     
+                                <div class="col-md-1"></div>
+                            </div>   
+                            <div class="row" style="margin-top: 35px;">
+                                <div class="col-md-1"></div>
+                                    
+                                <div class="form-group col-md-10">
+                                    <label for="date" style="font-size: 20px;">*Izaberite vreme: &nbsp;</label>
+                                    <input type="datetime-local" name="date" id="date" [(ngModel)]="date" >
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>   
+                            <div class="row justify-content-center">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-8" style="margin-top: 20px; margin-right: 55px;">
+                                    <span style="font-size: 20px;">Dodatan zahtev:</span>
+                                    <br>
+                                    <textarea name="additionalRequest" id="additionalRequest" style="width: 200px;" rows="4"></textarea>
+                                    <br>
+                                    <span class="green">{{completedMessage}}</span>
+                                    <span class="error" style="margin-left: 10px;">{{reservationMessage}}</span>
+                                    <br>
+                                    <button class="btn btn-primary" style="color: white; margin-left: 10px;" (click)="makeReservation()">Rezerviši</button>
+                                </div>
+                                <div class="col-sm-2"></div>
+                            </div>
+                           
+                        </form>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+    <br><br><br>
+    <hr style="width: 99%; margin:auto;">
+
+    <br><br>
+    <div class="row" style="justify-content: center;">
+        <div class="col-md-7 text-center">
+            <h1>Meni</h1>
+            <br>
+        </div>
+        <div class="col-md-5"></div>
+        </div>
+        <div  class="row">
+            <div class="col-md-7">
+                <div *ngFor="let dish of restaurant.menu" class="dish-container" style="margin-top:20px">
+                    <img src="{{dish.image}}" alt="Picture" class="img-fluid">
+                    <div class="dish-details" style="font-size: 18px;">
+                        <i>Ime: {{dish.dishName}}</i>
+                        <i>Cena: {{dish.price}} dinara</i>
+                        <i>Sastojci: {{dish.ingredients}}</i>
+                    </div>
+                    <div class="dish-actions">
+                        <button *ngIf="!dish.inBasket" class="btn btn-sm btn-outline-dark" (click)="addDish(dish)">
+                            Dodaj u korpu
+                        </button>
+                        <button *ngIf="dish.inBasket" class="btn btn-sm btn-outline-dark" (click)="deleteDish(dish)">
+                            Ukloni iz korpe
+                        </button>
+                    </div>
+                </div>
+            </div>            
+            <div class="col-md-5">
+                <div class="card" style="background-color:#9195ff; border-color: #2d308c;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><b>Ukupna cena: {{totalPrice}} dinara</b></span>
+                        <img src="../../assets/shoppingCart.png" alt="" style="width: 30px; height: 30px;">
+                    </div>
+                    <div class="card-body ">
+                        <h4 class="text-center" *ngIf="dishesInBasket.length==0" ><i>Vaša korpa je trenutno prazna</i></h4>
+                        <div class="row" *ngFor="let dish of dishesInBasket" style="margin-top: 10px;">
+                            <div class="col-sm-4">
+                                <p style="font-size: 18px;">Ime: {{dish.name}}</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <p style="font-size: 18px;">Cena: {{dish.price*dish.quantity}}</p>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <p style="font-size: 18px;">Količina: {{dish.quantity}} &nbsp; 
+                                    <a (click)="incrementDish(dish.name)"><img src="../../assets/plus.png" alt="" style="width: 20px; height: 20px;"></a> &nbsp;
+                                    <a (click)="decrementDish(dish.name)"><img src="../../assets/minus.png" alt="" style="width: 20px; height: 20px;"></a>
+                                </p> 
+                            </div>
+
+                        </div>          
+                        <hr>
+                        <div class="text-center"><span class="green" >{{completedOrderMessage}}</span></div>
+                        <div class="row" *ngIf="dishesInBasket.length!=0" style="justify-content: center;">
+                            <div class="form-group centered-form-group">
+                                <label for="address">Adresa dostave</label>
+                                <input type="text" class="form-control" id="address" placeholder="Vojvode Stepe 36, Beograd" required style="border-color: #2d308c; width: 300px; background-color:#979bff;" [(ngModel)]="address" name="address">
+                                <br>
+                            </div>
+                            <div class="form-group centered-form-group">
+                                <label for="phoneNumber">Broj telefona</label>
+                                <input type="text" class="form-control" id="phoneNumber" placeholder="0655550351" required style="border-color: #2d308c; width: 300px; background-color:#979bff;" [(ngModel)]="phoneNumber" name="phoneNumber">
+                                <br>
+                            </div>
+                            <span class="error text-center">{{orderMessage}}</span>
+                            <button  class="btn btn-sm btn-outline-dark" (click)="createOrder()" style="width: 130px; margin-top: 5px;">
+                                Završi porudžbinu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 12px;"><i>*Porudžbine se obrađuju isključivo tokom radnog vremena restorana</i></p>
+            </div>
+        </div>
+    
+    <br><br>
+</div> 

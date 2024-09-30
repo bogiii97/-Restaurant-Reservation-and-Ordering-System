@@ -1,0 +1,247 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header"></div>
+        <div class="col-4 header" style="padding-top: 30px; padding-left: 75px;">
+            <a routerLink="/admin"><span style="font-family: Pacifico; font-size: 37px; color: #e6e6f0;" >Kutak dobre hrane</span> &nbsp;
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px;"></a>
+        </div>
+
+        <div class="col-4 header text-black" style="padding-right: 35px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a routerLink="/admin"><img src="../../assets/backwardBlack.png" alt="" style="width: 40px; height: 40px; margin-top: 10px; margin-left: 10px;"></a>
+    </div>
+    <div *ngIf="showRestaurants">
+        <div class="row" >
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3">
+                <br>
+                <label for="search">Pretraga:</label>
+                <input (input)="search()" type="text" class="form-control" id="search" placeholder="Pretraži..." required style="border-color: #2d308c;" [(ngModel)]="searchText" name="search">
+            </div>
+            <div class="col-sm-3">
+                <br>
+                <label for="restaurantType">Tip korisnika:</label>
+                <select (change)="typeChange()" class="form-control" id="restaurantType" [(ngModel)]="restaurantType" name="restaurantType" style="border-color: #2d308c;">
+                    <option value="domaćaKuhinja" selected>Domaća kuhinja</option>
+                    <option value="kineski">Kineski</option>
+                    <option value="tajlandski">Tajlandski</option>
+                </select>
+            </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3"></div>
+        </div>
+
+        <br><br>
+        <div class="row" *ngFor="let restaurant of restaurantsToShow" style="margin-top: 40px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8 user-card" style="background-color: #2d308c;"> 
+                <div class="row">
+                    <div class="col-sm-3 p-3">
+                        <img src="{{restaurant.picture}}" alt="Picture" class="img-fluid">
+                    </div>
+                    <div class="col-sm-6 text-center" style="margin-top: 10px;">
+                        <h2><p>{{restaurant.name}}</p></h2>
+                        <p>
+                            <span><i>{{restaurant.address}}</i></span> | <span><i>{{restaurant.contactPerson}}</i></span>
+                        </p>
+                        <p><br>{{restaurant.description}}</p>
+                        <div>
+                            <br>
+                            <button (click)="menu(restaurant)" class="btn btn-outline-primary btn-sm" style="color: white;">Pregled menija</button> <p>|</p> 
+                            <button (click)="waiters(restaurant)" class="btn btn-outline-primary btn-sm" style="color: white;">Pregled zaposlenih</button> <p>|</p> 
+                            <button (click)="tables(restaurant)" class="btn btn-outline-primary btn-sm" style="color: white;">Pregled stolova</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 d-flex justify-content-center">
+                        <div class="vertical-line"></div>
+                    </div>
+                    <div class="col-sm-2 text-center">
+                        <h6 style="display: inline-block; color: beige; margin-top: 30px; margin-right: 10px;">Radno vreme</h6>
+                        <a (click)="workingHours(restaurant)"><img src="../../assets/icon.png" alt="" style="display: inline-block; width: 30px; height: 30px;"></a>
+                        <p *ngFor="let workingHour of restaurant.workingHours" style="font-size: 11px;">{{workingHour.day}} {{workingHour.openingTime}}h-{{workingHour.closingTime}}h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+
+            </div>
+
+            <br>
+        </div>
+        <br><br>
+
+        <h2 *ngIf="restaurantsToShow.length==0 && showRestaurants" class="text-center"><i>Trenutno nema restorana</i></h2>
+    </div>
+    
+    <div *ngIf="showWaiters">
+        <br><br>
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-3">
+                <div class="card" >
+                    <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #6063c7;">
+                        <a (click)="back()"><img src="../../assets/backward.png" alt="Podešavanja" class="img-fluid" style="max-height: 40px;"></a>
+                    </div>
+                    <div class="card-body" style="background-color: #2d308c;">
+                        <h4 class="text-center white">Zaposleni</h4>
+                            <br>
+                            <div *ngFor="let waiter of waiterNames" class="white text-center">
+                                {{waiter.firstname}} {{waiter.lastname}}
+                            </div>     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showWorkingHours">
+        <br><br>
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-6">
+                <div class="card" >
+                    <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #6063c7;">
+                        <a (click)="back()"><img src="../../assets/backward.png" alt="Podešavanja" class="img-fluid" style="max-height: 40px;"></a>
+                    </div>
+                    <div class="card-body" style="background-color: #9195ff;">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="day">Dan</label>
+                                    <select class="form-control" id="day" [(ngModel)]="day" name="day" style="border-color: #2d308c;">
+                                        <option value="Ponedeljak" selected>Ponedeljak</option>
+                                        <option value="Utorak">Utorak</option>
+                                        <option value="Sreda">Sreda</option>
+                                        <option value="Četvrtak">Četvrtak</option>
+                                        <option value="Petak">Petak</option>
+                                        <option value="Subota">Subota</option>
+                                        <option value="Nedelja">Nedelja</option>
+                                    </select>   
+                                </div>
+                                <div class="form-group col-md-5" style="margin-top: 28px;">
+                                    Od: <input type="number" name="from" id="from" [(ngModel)]="from" style="width: 100px;">
+                                    Do: <input type="number" name="to" id="to" [(ngModel)]="to" style="width: 100px;">
+                                </div>
+                                <div class="form-group col-md-3" style="margin-top: 25px;">
+                                    <button class="btn btn-primary btn-sm" style="color: white; margin-left: 30px;" (click)="addWorkingHour()">Dodaj</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <h4 *ngIf="restaurantToShow.workingHours.length == 0" class="text-center"><i>Trenutno nema definisano radno vreme</i></h4>
+                            <div class="row" *ngFor="let hour of workingHoursToShow">
+                                <div *ngIf="hour.openingTime<10 && hour.closingTime>=10" class="col-sm-4" style="margin-top: 10px;"><i style="font-size: 20px;">{{hour.day}} 0{{hour.openingTime}}h-{{hour.closingTime}}h</i></div>
+                                <div *ngIf="hour.openingTime<10 && hour.closingTime<10" class="col-sm-4" style="margin-top: 10px;"><i style="font-size: 20px;">{{hour.day}} 0{{hour.openingTime}}h-0{{hour.closingTime}}h</i></div>
+                                <div *ngIf="hour.openingTime>=10 && hour.closingTime>=10" class="col-sm-4" style="margin-top: 10px;"><i style="font-size: 20px;">{{hour.day}} {{hour.openingTime}}h-{{hour.closingTime}}h</i></div>
+                                <div class="col-sm-3" style="margin-top: 10px;">
+                                    <a (click)="deleteWorkingHour(hour.day, hour.openingTime, hour.closingTime)" style="margin-left: 20px; color: white;"><img src="../../assets/declineSign1.png" alt="Odbij" style="width: 30px; height: 30px;"></a>  
+                                 </div>
+                               <div class="col-sm-5"></div>  
+                            </div>
+                            <div class="text-center" style="margin-top: 10px">
+                                <span class="error">{{hoursMessage}}</span>
+                                <span style="color: green;">{{completedMessage}}</span>
+                                <br>
+                                <button class="btn btn-primary" style="color: white;" (click)="saveWorkingHours()">Sačuvaj</button>
+                            </div>          
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div *ngIf="showTables">
+        <br><br>
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-4">
+                <div class="card" >
+                    <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #6063c7;">
+                        <a (click)="back()"><img src="../../assets/backward.png" alt="Podešavanja" class="img-fluid" style="max-height: 40px;"></a>
+                    </div>
+                    <div class="card-body" style="background-color: #9195ff;">
+                        <form>
+                            <canvas id="layoutCanvas" width="440" height="350"></canvas>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+
+    <div *ngIf="showMenu">
+        <br><br>
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-6">
+                <div class="card" >
+                    <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #6063c7;">
+                        <a (click)="back()"><img src="../../assets/backward.png" alt="Podešavanja" class="img-fluid" style="max-height: 40px;"></a>
+                    </div>
+                    <div class="card-body" style="background-color: #9195ff;">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="name">*Naziv jela</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Burger" required style="border-color: #2d308c;"  name="name" [(ngModel)]="dishName">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="ingredients">*Sastojci</label>
+                                    <input type="text" class="form-control" id="ingredients" placeholder="Juneće meso, zenička, kačkavalj" required style="border-color: #2d308c;"  name="ingredients" [(ngModel)]="ingredients">
+                                </div>
+                            </div>
+                            
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="form-group col-md-6">
+                                    <label for="price">*Cena</label>
+                                    <input type="number" class="form-control" id="price" placeholder="1200" required style="border-color: #2d308c;"  name="price" [(ngModel)]="dishPrice">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profile_picture">*Slika jela</label>             
+                                    <input type="file" class="form-control" (change)="validateDishPicture($event)">
+                                    <span class="error">{{pictureError}}</span>
+                                </div>
+                            </div>
+                            <div class="text-center" style="margin-top: 20px">
+                                <span class="error">{{dishesMessage}}</span>
+                                <br>
+                                <button class="btn btn-primary btn-sm" style="color: white;" (click)="addDish()">Dodaj jelo</button>
+                            </div> 
+                            <hr>
+                            <h5 *ngIf="dishesToShow.length==0" class="text-center"><i>Trenutno nema jela u jelovniku</i></h5>
+                            
+                            <div class="row" *ngFor="let dish of dishesToShow" style="display: flex; align-items: center;">
+                                <div class="col-sm-3" style="margin-top: 10px;"><img src="{{dish.image}}" alt="Picture" class="img-fluid"></div>
+                                <div class="col-sm-6" style="margin-top:10px;">
+                                 <i>Ime: {{dish.dishName}} <br>
+                                    Cena: {{dish.price}} dinara <br>
+                                    Sastojci: {{dish.ingredients}} <br>
+                                </i>
+                                </div>                          
+                                <div class="col-sm-3" style="margin-top: 10px;">
+                                    <a (click)="deleteDish(dish.dishName, dish.price, dish.ingredients)" style="color: white;"><img src="../../assets/declineSign1.png" alt="Odbij" style="width: 40px; height: 40px;"></a>  
+                                 </div>        
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <span style="color: green">{{completedMessage}}</span>
+                                <br>
+                                <button class="btn btn-primary" style="color: white;" (click)="saveMenu()">Sačuvaj</button>
+                            </div>          
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    
+</div>

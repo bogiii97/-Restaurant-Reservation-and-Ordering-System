@@ -1,0 +1,118 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header" style="padding-top: 35px; padding-left: 35px;">
+           <span style="font-family: Pacifico; font-size: 25px; color: #e6e6f0;cursor: default; pointer-events: none;" >Kutak dobre hrane</span>
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px; margin-left:15px">
+        </div>
+
+        <div class="col-6 header" style=" padding-top: 25px; padding-left: 90px;" >
+            <div>
+                <a routerLink="/profile"><img src="../assets/profile.png" alt="Profil" class="img-fluid"> </a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/restaurants"><img src="../assets/restaurant.png" alt="Restorani" class="img-fluid "></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/reservations"><img src="../assets/reservation.png" alt="Rezervacije" class="img-fluid"></a> &nbsp;&nbsp;&nbsp;
+                <a routerLink="/gost/foodDelivery"><img src="../assets/foodDelivery.png" alt="Porudzbine" class="img-fluid"></a> 
+            </div>
+        </div>
+        <div class="col-2 header text-white text-center" style="padding-right: 50px; padding-top: 45px;">
+            <div>
+                <div class="float-right">
+                    <a (click)="logout()" class="prijava" style="color: #e6e6f0">Odjava</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row">   
+        <div class="col-sm-1">
+        </div>     
+        <div class="col-sm-10">
+            <br>
+            <h1 class="text-center" style="font-size: 60px;">Restorani</h1>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3">
+                    <br>
+                    <label for="search">Pretraga:</label>
+                    <input (input)="search()" type="text" class="form-control" id="search" placeholder="Pretraži..." required style="border-color: #2d308c;" [(ngModel)]="searchText" name="search">
+                </div>
+                <div class="col-sm-3">
+                    <br>
+                    <label for="restaurantType">Tip restorana:</label>
+                    <select (change)="typeChange()" class="form-control" id="restaurantType" [(ngModel)]="restaurantType" name="restaurantType" style="border-color: #2d308c;">
+                        <option value="svi">Svi</option>
+                        <option value="domaćaKuhinja" selected>Domaća kuhinja</option>
+                        <option value="kineski">Kineski</option>
+                        <option value="tajlandski">Tajlandski</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-1" style="margin-top: 15px;">
+                    <label for="sortChoice">Sortiraj po:</label>
+                    <select class="form-control" id="sortChoice" [(ngModel)]="sortChoice" name="sortChoice" style="border-color: #2d308c;">
+                    
+                        <option value="name" selected>Ime</option>
+                        <option value="address">Adresa</option>
+                    </select>  </div>
+                <div class="col-sm-1" style="margin-top: 15px;">
+                    <label for="typeOfSort">Tip:</label>
+                    <select class="form-control" id="typeOfSort" [(ngModel)]="typeOfSort" name="typeOfSort" style="border-color: #2d308c;">
+                    
+                        <option value="rastuće" selected>Rastuće</option>
+                        <option value="opadajuće">Opadajuće</option>
+                    </select>
+                </div>
+                <div class="col-sm-1" style="margin-top: 43px; margin-right: 5px;">
+                    <button class="btn btn-sm btn-outline-dark"  (click)="sort()">
+                        Sortiraj
+                    </button> 
+                    <span *ngIf="sorted" style="margin-left: 5px"><a (click)="resetSort()"><img src="../../assets/resetIcon.png" alt="Reset" style="width: 14px; height: 14px;"></a></span>
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>
+
+            <br>
+            <div class="row" *ngFor="let restaurant of restaurantsToShow" style="margin-top: 40px;">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10 user-card" style="margin-left: 80px;"> 
+                    <div class="row">
+                        <div class="col-sm-3 p-3" style="background-color: #2d308c;">
+                            <img src="{{restaurant.picture}}" alt="Picture" class="img-fluid">
+                        </div>
+                        <div class="col-sm-5 text-center card-container" style="background-color: #2d308c; position: relative;">
+                            <a (click)="restaurantNavigate(restaurant)" class="restaurant-link"><p style="padding-top: 10px;font-size: 35px;" >{{restaurant.name}}</p></a>
+                            <p>
+                                <span><i>{{restaurant.address}}</i></span> | <span><i>{{restaurant.contactPerson}}</i></span>
+                            </p>
+                            <p><br>{{restaurant.description}}</p>
+                            <a (click)="showWaiters(restaurant)" class="waiters-link"><p style="text-decoration: underline; font-size: 15px;"><i>Prikaži konobare</i></p></a>                
+                        </div>
+                        <div class="col-sm-2 text-center" style="background-color: #2d308c;">
+                            <h5 style="display: inline-block; color: beige; margin-top: 15px;">Radno vreme</h5>
+                            <p *ngFor="let workingHour of restaurant.workingHours" style="font-size: 13px;">{{workingHour.day}} {{workingHour.openingTime}}h-{{workingHour.closingTime}}h</p>
+                        </div>
+                        <div class="col-sm-2 text-center" [id]="restaurant.name" hidden>
+                            <a (click)="hideWaiters(restaurant)"><img src="../../assets/hide (1).png" alt="" style="display: inline-block; width: 30px; height: 30px; margin-right: 5px;"></a>
+                            <h5 style="display: inline-block; color: beige; margin-top: 15px; margin-right: 25px;">Konobari</h5>
+                            <p *ngFor="let waiter of waiterNames" style="font-size: 13px;">{{waiter.firstname}} {{waiter.lastname}}</p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <br><br>
+
+            <h2 *ngIf="restaurantsToShow.length==0" class="text-center"><i>Trenutno nema restorana</i></h2>
+        </div>
+        <div class="col-sm-1"></div>
+        
+    </div>
+
+</div>

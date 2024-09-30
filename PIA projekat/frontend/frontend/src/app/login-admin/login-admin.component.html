@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row" style="min-height: 120px;">
+        <div class="col-4 header"></div>
+        <div class="col-4 header" style="padding-top: 30px; padding-left: 75px;">
+            <a routerLink=""><span style="font-family: Pacifico; font-size: 37px; color: #e6e6f0;" >Kutak dobre hrane</span> &nbsp;
+            <img src="../assets/logo.png" alt="Logo" style="padding-bottom: 15px;"></a>
+        </div>
+        <div class="col-4 header"></div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4" >
+            <br><br>
+            <h1 class="text-center" style="color: white">Prijava admina</h1>
+            <div class="card p-4" style="border-color: #2d308c; background-color:#d4d117">
+                <form>
+                    <div class="form-group">
+                        <label for="email">Korisničko ime</label>
+                        <input type="email" class="form-control" id="username" placeholder="user123" required style="border-color: #2d308c;" [(ngModel)]="username" name="username">
+                    </div>
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label for="password">Lozinka</label>
+                        <input type="password" class="form-control" id="password" placeholder="********" required style="border-color: #2d308c;" [(ngModel)]="password" name="password">
+                    </div>
+                    <small class="error">{{message}}</small>
+                    <br>
+                    <div class="text-center" style="margin-top: 8px">
+                        <button class="btn" style="color: white; background-color: #9195ff;" (click)="login()">Uloguj se</button>
+                    </div>
+                </form>
+            </div>
+            <div class="text-center mt-1">
+                <a routerLink="passwordForget" class="text-decoration-none" style="color: white;"><u>Zaboravljena lozinka</u></a>
+            </div>
+        </div>
+    </div>
+
+</div>
